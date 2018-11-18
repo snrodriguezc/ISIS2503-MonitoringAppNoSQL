@@ -122,7 +122,7 @@ STATIC_URL = '/static/'
 
 
 # Mlab Config
-MLAB_USER = os.environ['MONGO_DB']
+MLAB_USER = os.environ['MONGO_USER']
 MLAB_PASSWORD = os.environ['MLAB_PASSWORD']
 MONGO_DB = os.environ['MONGO_DB']
 DB_HOST = os.environ['DB_HOST']
