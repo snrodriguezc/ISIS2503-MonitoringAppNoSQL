@@ -10,9 +10,8 @@ from bson.objectid import ObjectId
 
 @api_view(["GET", "POST"])
 def variables(request):
-    client = MongoClient(settings.DB_HOST, int(settings.DB_PORT))
-    db = client[settings.MONGO_DB]
-    db.authenticate(settings.MLAB_USER, settings.MLAB_PASSWORD)
+    client = MongoClient(settings.MONGO_CLI)
+    db = client.monitoring_db
     variables = db['variables']
     if request.method == "GET":
         result = []
@@ -39,9 +38,8 @@ def variables(request):
 
 @api_view(["GET", "POST"])
 def variablesDetail(request, pk):
-    client = MongoClient(settings.DB_HOST, int(settings.DB_PORT))
-    db = client[settings.MONGO_DB]
-    db.authenticate(settings.MLAB_USER, settings.MLAB_PASSWORD)
+    client = MongoClient(settings.MONGO_CLI)
+    db = client.monitoring_db
     variables = db['variables']
     if request.method == "GET":
         data = variables.find({'_id': ObjectId(pk)})
@@ -71,9 +69,8 @@ def variablesDetail(request, pk):
           
 @api_view(["GET", "POST"])
 def places(request):
-    client = MongoClient(settings.DB_HOST, int(settings.DB_PORT))
-    db = client[settings.MONGO_DB]
-    db.authenticate(settings.MLAB_USER, settings.MLAB_PASSWORD)
+    client = MongoClient(settings.MONGO_CLI)
+    db = client.monitoring_db
     place = db['places']
     if request.method == "GET":
         result = []
@@ -102,9 +99,8 @@ def places(request):
 
 @api_view(["GET", "POST", "DELETE"])
 def placeDetail(request, pk):
-    client = MongoClient(settings.DB_HOST, int(settings.DB_PORT))
-    db = client[settings.MONGO_DB]
-    db.authenticate(settings.MLAB_USER, settings.MLAB_PASSWORD)
+    client = MongoClient(settings.MONGO_CLI)
+    db = client.monitoring_db
     place = db['places']
     if request.method == "GET":
         result = []
@@ -171,9 +167,8 @@ def placeDetail(request, pk):
 
 @api_view(["GET", "POST"])
 def warnings(request):
-    client = MongoClient(settings.DB_HOST, int(settings.DB_PORT))
-    db = client[settings.MONGO_DB]
-    db.authenticate(settings.MLAB_USER, settings.MLAB_PASSWORD)
+    client = MongoClient(settings.MONGO_CLI)
+    db = client.monitoring_db
     warning = db['warnings']
     if request.method == "GET":
         result = []
@@ -199,9 +194,8 @@ def warnings(request):
 
 @api_view(["GET"])
 def warningDetail(request, pk):
-    client = MongoClient(settings.DB_HOST, int(settings.DB_PORT))
-    db = client[settings.MONGO_DB]
-    db.authenticate(settings.MLAB_USER, settings.MLAB_PASSWORD)
+    client = MongoClient(settings.MONGO_CLI)
+    db = client.monitoring_db
     warning = db['warnings']
     data = warning.find({'_id': ObjectId(pk)})
     result = []
@@ -216,9 +210,8 @@ def warningDetail(request, pk):
 
 @api_view(["POST"])
 def average(request, pk):
-    client = MongoClient(settings.DB_HOST, int(settings.DB_PORT))
-    db = client[settings.MONGO_DB]
-    db.authenticate(settings.MLAB_USER, settings.MLAB_PASSWORD)
+    client = MongoClient(settings.MONGO_CLI)
+    db = client.monitoring_db
     dataReceived = JSONParser().parse(request)
     place = db['places']
     data = place.find({'_id': ObjectId(pk)})
@@ -256,9 +249,8 @@ def average(request, pk):
 
 @api_view(["POST"])
 def warningsFilter(request):
-    client = MongoClient(settings.DB_HOST, int(settings.DB_PORT))
-    db = client[settings.MONGO_DB]
-    db.authenticate(settings.MLAB_USER, settings.MLAB_PASSWORD)
+    client = MongoClient(settings.MONGO_CLI)
+    db = client.monitoring_db
     warning = db['warnings']
 
     if request.method == "POST":

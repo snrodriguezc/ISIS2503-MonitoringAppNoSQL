@@ -121,9 +121,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
-# Mlab Config
-MLAB_USER = os.environ['MLAB_USER_PATTERNS']
-MLAB_PASSWORD = os.environ['MLAB_PASSWORD_PATTERNS']
-MONGO_DB = os.environ['MONGO_DB_PATTERNS']
-DB_HOST = os.environ['DB_HOST_PATTERNS']
-DB_PORT = os.environ['DB_PORT_PATTERNS']
+# MongoDB Atlas Config
+MONGO_CLI = os.environ['MONGO_CLIENT']
