@@ -348,6 +348,47 @@ def psicologoDetail(request, pk):
     client.close()
     return JsonResponse(result[0], safe=False)
 
+@api_view(["GET", "POST"])
+def horario(request):
+    client = MongoClient(settings.MONGO_CLI)
+    db = client.monitoring_db
+    warning = db['horarios']
+    if request.method == "GET":
+        result = []
+        data = warning.find({})
+        for dto in data:
+            jsonData ={
+                'id': str(dto['_id']),
+                "date": dto['date']
+            }
+            result.append(jsonData)
+        client.close()
+        return JsonResponse(result, safe=False)
+    if request.method == 'POST':
+        data = JSONParser().parse(request)
+        data['date'] = datetime.datetime.utcnow()
+        result = warning.insert(data)
+        respo ={
+            "MongoObjectID": str(result),
+            "Message": "nuevo objeto en la base de datos"
+        }
+        client.close()
+        return JsonResponse(respo, safe=False)
 
+@api_view(["GET"])
+def hararioDetail(request, pk):
+    client = MongoClient(settings.MONGO_CLI)
+    db = client.monitoring_db
+    warning = db['horarios']
+    data = warning.find({'_id': ObjectId(pk)})
+    result = []
+    for dto in data:
+        jsonData ={
+                'id': str(dto['_id']),
+                "date": dto['date']
+            }   
+        result.append(jsonData)
+    client.close()
+    return JsonResponse(result[0], safe=False)
 
     
