@@ -278,6 +278,7 @@ def estudiantes(request):
         data = estudiante.find({})
         for dto in data:
             jsonData ={
+                'id': str(dto['_id']),
                 "name": dto['name']
             }
             result.append(jsonData)
@@ -302,6 +303,7 @@ def estudianteDetail(request, pk):
     result = []
     for dto in data:
         jsonData ={
+            'id': str(dto['_id']),
             "name": dto['name'],
         }
         result.append(jsonData)
@@ -318,6 +320,7 @@ def psicologos(request):
         data = psicologo.find({})
         for dto in data:
             jsonData ={
+                'id': str(dto['_id']),
                 "name": dto['name']
             }
             result.append(jsonData)
@@ -342,6 +345,7 @@ def psicologoDetail(request, pk):
     result = []
     for dto in data:
         jsonData ={
+            'id': str(dto['_id']),
             "name": dto['name'],
         }
         result.append(jsonData)
