@@ -376,11 +376,11 @@ def horario(request):
         return JsonResponse(respo, safe=False)
 
 @api_view(["GET"])
-def hararioDetail(request, pk):
+def horarioDetail(request, pk):
     client = MongoClient(settings.MONGO_CLI)
     db = client.monitoring_db
-    warning = db['horarios']
-    data = warning.find({'_id': ObjectId(pk)})
+    horario = db['horarios']
+    data = horario.find({'_id': ObjectId(pk)})
     result = []
     for dto in data:
         jsonData ={
