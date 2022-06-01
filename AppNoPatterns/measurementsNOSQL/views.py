@@ -93,7 +93,7 @@ def psicologoDetail(request, pk):
     return JsonResponse(result[0], safe=False)
 
 @api_view(["GET", "POST"])
-def horario(request):
+def horarios(request):
     client = MongoClient(settings.MONGO_CLI)
     db = client.monitoring_db
     warning = db['horarios']
