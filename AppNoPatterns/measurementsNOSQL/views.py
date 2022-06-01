@@ -268,7 +268,85 @@ def warningsFilter(request):
         client.close()
         return JsonResponse(result, safe=False)
 
+@api_view(["GET", "POST"])
+def estudiantes(request):
+    client = MongoClient(settings.MONGO_CLI)
+    db = client.monitoring_db
+    estudiante = db['estudiantes']
+    if request.method == "GET":
+        result = []
+        data = estudiante.find({})
+        for dto in data:
+            jsonData ={
+                "name": dto['name']
+            }
+            result.append(jsonData)
+        client.close()
+        return JsonResponse(result, safe=False)
+    if request.method == 'POST':
+        data = JSONParser().parse(request)
+        result = estudiante.insert(data)
+        respo ={
+            "MongoObjectID": str(result),
+            "Message": "nuevo objeto en la base de datos"
+        }
+        client.close()
+        return JsonResponse(respo, safe=False)
 
+@api_view(["GET"])
+def estudianteDetail(request, pk):
+    client = MongoClient(settings.MONGO_CLI)
+    db = client.monitoring_db
+    estudiante = db['estudiantes']
+    data = estudiante.find({'_id': ObjectId(pk)})
+    result = []
+    for dto in data:
+        jsonData ={
+            "name": dto['name'],
+        }
+        result.append(jsonData)
+    client.close()
+    return JsonResponse(result[0], safe=False)
+
+@api_view(["GET", "POST"])
+def psicologos(request):
+    client = MongoClient(settings.MONGO_CLI)
+    db = client.monitoring_db
+    psicologo = db['psicologos']
+    if request.method == "GET":
+        result = []
+        data = psicologo.find({})
+        for dto in data:
+            jsonData ={
+                "name": dto['name']
+            }
+            result.append(jsonData)
+        client.close()
+        return JsonResponse(result, safe=False)
+    if request.method == 'POST':
+        data = JSONParser().parse(request)
+        result = psicologo.insert(data)
+        respo ={
+            "MongoObjectID": str(result),
+            "Message": "nuevo objeto en la base de datos"
+        }
+        client.close()
+        return JsonResponse(respo, safe=False)
+
+@api_view(["GET"])
+def psicologoDetail(request, pk):
+    client = MongoClient(settings.MONGO_CLI)
+    db = client.monitoring_db
+    psicologo = db['psicologos']
+    data = psicologo.find({'_id': ObjectId(pk)})
+    result = []
+    for dto in data:
+        jsonData ={
+            "name": dto['name'],
+        }
+        result.append(jsonData)
+    client.close()
+    return JsonResponse(result[0], safe=False)
 
 
 
