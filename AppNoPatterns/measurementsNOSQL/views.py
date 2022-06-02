@@ -96,10 +96,10 @@ def psicologoDetail(request, pk):
 def horarios(request):
     client = MongoClient(settings.MONGO_CLI)
     db = client.monitoring_db
-    warning = db['horarios']
+    horario = db['horarios']
     if request.method == "GET":
         result = []
-        data = warning.find({})
+        data = horario.find({})
         for dto in data:
             jsonData ={
                 'id': str(dto['_id']),
@@ -142,6 +142,8 @@ def citas(request):
     client = MongoClient(settings.MONGO_CLI)
     db = client.monitoring_db
     cita = db['citas']
+    horarioND = db['horariosND']
+    horario = db['horarios']
     if request.method == "GET":
         result = []
         data = cita.find({})
@@ -159,9 +161,27 @@ def citas(request):
         return JsonResponse(result, safe=False)
     if request.method == "POST":
         data = JSONParser().parse(request)
+        horarioid = data['horario']
         result = cita.insert(data)
+        date=""
         respo ={
             "MongoObjectID": str(result),
+            "Message": "nuevo objeto en la base de datos"
+        }
+        for dto in horario.find({'_id': ObjectId(horarioid)}):
+            date = dto['date']
+        result2 = horario.remove({"_id": ObjectId(horarioid)})
+        respo2 = {
+            "MongoObjectID": str(result2),
+            "Mensaje": "Se ha borrado una cita"
+        }
+        result3 = horarioND.insert(
+            {'_id': ObjectId(horarioid)},
+            {"disponible":  "False"},
+            {'date':date}
+        )
+        respo3 ={
+            "MongoObjectID": str(result3),
             "Message": "nuevo objeto en la base de datos"
         }
         client.close()
@@ -186,32 +206,6 @@ def citaDetail(request, pk):
             result.append(jsonData)
         client.close()
         return JsonResponse(result[0], safe=False)
-    if request.method == "POST":
-        data = JSONParser().parse(request)
-        horario = data['horario']
-        result = cita.insert(data)
-        date=""
-        respo ={
-            "MongoObjectID": str(result),
-            "Message": "nuevo objeto en la base de datos"
-        }
-        for dto in horarios.find({'_id': ObjectId(horario)}):
-            date = dto['date']
-        result2 = horario.remove({"_id": ObjectId(horario)})
-        respo2 = {
-            "MongoObjectID": str(result2),
-            "Mensaje": "Se ha borrado una cita"
-        }
-        result3 = horariosND.insert(
-            {'_id': ObjectId(horario)},
-            {"disponible":  "False"},
-            {'date':date}
-        )
-        respo3 ={
-            "MongoObjectID": str(result3),
-            "Message": "nuevo objeto en la base de datos"
-        }
-        return JsonResponse(respo, safe=False)
 
     if request.method == "DELETE":
         result = cita.remove({"_id": ObjectId(pk)})
