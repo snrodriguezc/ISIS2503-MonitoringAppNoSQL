@@ -103,6 +103,7 @@ def horarios(request):
         for dto in data:
             jsonData ={
                 'id': str(dto['_id']),
+                "disponible":  dto['disponible'],
                 "date": dto['date']
             }
             result.append(jsonData)
@@ -118,6 +119,7 @@ def horarios(request):
         }
         client.close()
         return JsonResponse(respo, safe=False)
+
 
 @api_view(["GET"])
 def horarioDetail(request, pk):
