@@ -11,5 +11,4 @@ urlpatterns =[
     url(r'^horarios/(?P<pk>\w+)/$', horarioDetail),
     url(r'^citas/$', citas),
     url(r'^citas/(?P<pk>\w+)/$', citaDetail),
-    url(r'^horariosND/$', horariosND),
 ]
