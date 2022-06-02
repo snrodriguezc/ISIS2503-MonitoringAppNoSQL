@@ -175,11 +175,10 @@ def citas(request):
             "MongoObjectID": str(result2),
             "Mensaje": "Se ha borrado una cita"
         }
-        result3 = horarioND.insert(
-            {'_id': ObjectId(horarioid)},
-            {"disponible":  "False"},
-            {'date':date}
-        )
+        data2 = JSONParser().parse({'_id': ObjectId(horarioid),
+            "disponible":  "False",
+            'date':date})
+        result3 = horarioND.insert(data2)
         respo3 ={
             "MongoObjectID": str(result3),
             "Message": "nuevo objeto en la base de datos"
